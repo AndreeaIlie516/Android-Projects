@@ -3,7 +3,9 @@ package com.android.geoquiz
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.android.geoquiz.databinding.ActivityCheatBinding
 
@@ -20,6 +22,10 @@ class CheatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCheatBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val apiLevelTextView: TextView = findViewById(R.id.api_level_text_view)
+        val apiLevel = Build.VERSION.SDK_INT
+        apiLevelTextView.text = getString(R.string.api_level, apiLevel)
 
         answerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
 
