@@ -41,6 +41,12 @@
         android:layout_marginTop="24dp"
         android:text="@string/cheat_button" />
 
+    <TextView
+        android:id="@+id/cheatsRemainingTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remaining_cheats" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">

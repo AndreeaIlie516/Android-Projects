@@ -29,9 +29,11 @@ class QuizViewModel(
         get() = savedStateHandle.get(SCORE_KEY) ?: 0
         set(value) = savedStateHandle.set(SCORE_KEY, value)
 
-    var isCheater: Boolean
-        get() = savedStateHandle.get(IS_CHEATER_KEY) ?: false
-        set(value) = savedStateHandle.set(IS_CHEATER_KEY, value)
+    private var cheatsUsed: Int
+        get() = savedStateHandle.get("CHEATS_USED") ?: 0
+        set(value) = savedStateHandle.set("CHEATS_USED", value)
+
+    private val maxCheatsAllowed = 3
 
     val currentQuestionAnswer: Boolean
         get() = questionBank[currentIndex].answer
@@ -44,6 +46,15 @@ class QuizViewModel(
         set(value) {
             questionBank[currentIndex].isAnswered = value
         }
+
+    var isCheater: Boolean
+        get() = questionBank[currentIndex].isCheated
+        set(value) {
+            questionBank[currentIndex].isCheated = value
+        }
+
+    val canCheat: Boolean
+        get() = cheatsUsed < maxCheatsAllowed
 
     fun moveToNext() {
         currentIndex = (currentIndex + 1) % questionBank.size
@@ -67,4 +78,17 @@ class QuizViewModel(
         }
         return -1
     }
+
+    fun markCurrentQuestionAsCheated() {
+        questionBank[currentIndex].isCheated = true
+    }
+
+    fun useCheat() {
+        if (canCheat) {
+            cheatsUsed++
+            markCurrentQuestionAsCheated()
+        }
+    }
+
+    fun getRemainingCheats(): Int = maxCheatsAllowed - cheatsUsed
 }

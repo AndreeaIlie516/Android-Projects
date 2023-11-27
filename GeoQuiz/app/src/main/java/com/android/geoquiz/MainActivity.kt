@@ -26,8 +26,13 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            quizViewModel.isCheater =
+            val cheated =
                 result.data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
+            if (cheated) {
+                quizViewModel.markCurrentQuestionAsCheated()
+                quizViewModel.useCheat()
+                updateCheatInfo()
+            }
         }
     }
 
@@ -133,5 +138,10 @@ class MainActivity : AppCompatActivity() {
             Shader.TileMode.CLAMP
         )
         binding.cheatButton.setRenderEffect(effect)
+    }
+
+    private fun updateCheatInfo() {
+        binding.cheatsRemainingTextView.text = "Cheats left: ${quizViewModel.getRemainingCheats()}"
+        binding.cheatButton.isEnabled = quizViewModel.canCheat
     }
 }

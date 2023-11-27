@@ -17,6 +17,8 @@ class CheatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCheatBinding
 
     private var answerIsTrue = false
+    private var hasCheated = false
+    private var isAnswerShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,15 +31,28 @@ class CheatActivity : AppCompatActivity() {
 
         answerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
 
+        if (savedInstanceState != null) {
+            hasCheated = savedInstanceState.getBoolean("HAS_CHEATED", false)
+            isAnswerShown = savedInstanceState.getBoolean("IS_ANSWER_SHOWN", false)
+            if (isAnswerShown) {
+                showAnswer()
+            }
+        }
 
         binding.showAnswerButton.setOnClickListener {
-            val answerText = when {
-                answerIsTrue -> R.string.true_button
-                else -> R.string.false_button
-            }
-            binding.answerTextView.setText(answerText)
-            setAnswerShownResult(true)
+            showAnswer()
         }
+    }
+
+    private fun showAnswer() {
+        hasCheated = true
+        isAnswerShown = true
+        val answerText = when {
+            answerIsTrue -> R.string.true_button
+            else -> R.string.false_button
+        }
+        binding.answerTextView.setText(answerText)
+        setAnswerShownResult(true)
     }
 
     private fun setAnswerShownResult(isAnswerShown: Boolean) {
@@ -45,6 +60,12 @@ class CheatActivity : AppCompatActivity() {
             putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown)
         }
         setResult(Activity.RESULT_OK, data)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("HAS_CHEATED", hasCheated)
+        outState.putBoolean("IS_ANSWER_SHOWN", isAnswerShown)
     }
 
     companion object {
