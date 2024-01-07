@@ -6,7 +6,7 @@ plugins {
 apply(from = "$rootDir/base-module.gradle")
 
 android {
-    namespace = "com.andreaailie.onboarding_domain"
+    namespace = "com.andreeailie.onboarding_domain"
 }
 
 dependencies {

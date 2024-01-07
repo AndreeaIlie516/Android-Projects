@@ -6,7 +6,7 @@ plugins {
 apply(from = "$rootDir/base-module.gradle")
 
 android {
-    namespace = "com.andreaailie.tracker_data"
+    namespace = "com.andreeailie.tracker_data"
 }
 
 dependencies {

@@ -6,10 +6,11 @@ plugins {
 apply(from = "$rootDir/compose-module.gradle")
 
 android {
-    namespace = "com.andreaailie.onboarding_presentation"
+    namespace = "com.andreeailie.onboarding_presentation"
 }
 
 dependencies {
     implementation(project(Modules.core))
+    implementation(project(Modules.coreUi))
     implementation(project(Modules.onboardingDomain))
 }
